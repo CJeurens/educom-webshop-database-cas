@@ -38,7 +38,7 @@ function retrieveUserInfo($login_input)
 
 function addUserToDB()
 {
-    print "hoi";
+    print "hey";
 }
 
 ?>
