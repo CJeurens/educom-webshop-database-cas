@@ -31,10 +31,12 @@ function retrieveUserInfo($login_input)
 
 function addUserToDB()
 {
+
     $conn = connectMySQLi("users");
 
     $sql = "INSERT INTO users (email, username, pass) VALUES ('".$_POST["email"]."','".$_POST["username"]."','".$_POST["password"]."')";
     mysqli_query($conn,$sql);
+
 }
 
 ?>
