@@ -22,23 +22,19 @@ function retrieveUserInfo($login_input)
     $sql = "SELECT email, username, pass FROM users WHERE email='".$login_input["email"]."'";
     $result = mysqli_query($conn,$sql);
     $row = mysqli_fetch_assoc($result);
-
-    return $row;
-
+    
+    
     mysqli_close($conn);
+    return $row;
 }
 
-/*function addUserToTxt()///
-{
-    $f_users = fopen("users.txt", "a") or die ("Unable to open file!");
-    $new_user = "\n".($_POST["email"])."|".($_POST["username"])."|".($_POST["password"]);
-    fwrite($f_users, $new_user);
-    fclose($f_users);
-}*/
 
 function addUserToDB()
 {
-    print "hoi";
+    $conn = connectMySQLi("users");
+
+    $sql = "INSERT INTO users (email, username, pass) VALUES ('".$_POST["email"]."','".$_POST["username"]."','".$_POST["password"]."')";
+    mysqli_query($conn,$sql);
 }
 
 ?>
