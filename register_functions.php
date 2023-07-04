@@ -38,8 +38,8 @@ function validateRegInput()
 
             if ($reg_form_data["emailErr"] == NULL && $reg_form_data["usernameErr"] == NULL && $reg_form_data["passwordErr"] == NULL && $reg_form_data["rpasswordErr"] == NULL)
             {
-                print "user registered!";
-                addUserToDB();
+                $new_user = array("email"=>$login_input["email"],"username"=>$login_input["username"],"pass"=>$login_input["pass"]);
+                addUserToDB($new_user);
                 $login_input = $reg_form_data;
                 $login_input["valid"] = TRUE;
                 doLoginSession($login_input);
@@ -58,12 +58,12 @@ function validateRegInput()
 //===================================================================================================
 function validateRegPassword($login_input,$reg_form_data)
 {
-    if (retrieveUserInfo($login_input) != NULL)
+    $email = $login_input["email"];
+    if (retrieveUserInfo($email) != NULL)
     {
         $reg_form_data["emailErr"] = "E-mail already exists";
         return $reg_form_data;
     }
-
 
     if (strcmp($login_input["pass"],$login_input["password_repeat"]) == 0)
     {
@@ -74,7 +74,6 @@ function validateRegPassword($login_input,$reg_form_data)
         $reg_form_data["rpasswordErr"] = "Incorrect repeat password";
         return $reg_form_data;
     }
-
 }
 
 ?>

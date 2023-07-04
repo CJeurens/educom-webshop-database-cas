@@ -12,7 +12,6 @@ function validateLoginInput()
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $login_input = array_merge($login_input,retrieveLoginInput());
-
         if ($login_input["email"] == NULL)
         {
             $login_input["emailErr"] = "Please enter e-mail";
@@ -45,7 +44,8 @@ function validateLoginInput()
 function validateLoginPassword($login_input)
 {
     $result = array('emailMatch' => false, 'passwordMatch' => false, "valid"=>FALSE);
-    $user_info = retrieveUserInfo($login_input);   
+    $email = $login_input["email"];
+    $user_info = retrieveUserInfo($email);   
     if (empty($user_info)) 
     {
         return $result; 
@@ -62,7 +62,7 @@ function validateLoginPassword($login_input)
     $result['valid'] = TRUE;
     $result['username'] = $user_info['username']; 
     
-    doLoginSession($result);
+    
        
     return $result;
 }

@@ -15,7 +15,7 @@ function showHtmlHeadSection($data)
     <head>
     <meta charset='UTF-8'>".
     setTitle($data)
-    ."<link rel='stylesheet' href='/opdracht_0.1/[RESTRUCTURE] opdracht_1.6/stylesheet.css'>
+    ."<link rel='stylesheet' href='/educom-webshop-database-cas/stylesheet.css'>
     </head>
     ";
 }
@@ -48,41 +48,34 @@ function setTitle($data)
         case "msg_sent":
             print "<title>".htmlspecialchars("📞CONTACT")."</title>";
             break;
-        case "account":
+        case "login":
             print "<title>".htmlspecialchars("👤ACCOUNT")."</title>";
             break;
         case "register":
             print "<title>".htmlspecialchars("👤ACCOUNT")."</title>";
             break;
+        case "shop":
+            if(!empty($data["product"]))
+            {
+                $products = getProductData();
+                $product = $products[$data["product"]];
+                print "<title>".$product["name"]."</title>";
+            }
+            else
+            {
+                print "<title>".htmlspecialchars("🛍️SHOP")."</title>";
+            }
+            break;
     }
 }
 
-
-//===========================================
-// Show navigation menu linking to each page
-//===========================================
-function showNav()
-{
-    print "
-    <div class='navbar'>
-        <ul class='nav'>
-            <li><a href='?page=home'>".htmlspecialchars("🏠HOME")."</a></li>
-            <li><a href='?page=about'>".htmlspecialchars("ℹ️ABOUT")."</a></li>
-            <li><a href='?page=contact'>".htmlspecialchars("📞CONTACT")."</a></li>
-            <span class='account'><form method='post' id='logout' name='logout'>";
-            showLogIn(); print "</form></span>
-        </ul>
-    </div>
-    ";
-}
 
 //=======================================
 // Show different header for each pageID
 //=======================================
 function showHeader($data)
 {
-    print "<header><h2 style=font-family:dubai>";
-    
+    print "<div class='pagetop'><header><h2 style=font-family:dubai>";
     switch ($data["page"])
     {
         case "home":
@@ -97,17 +90,38 @@ function showHeader($data)
         case "msg_sent":
             print htmlspecialchars("📞DIT IS CONTACT");
             break;
-        case "account":
+        case "login":
             print htmlspecialchars("👤ACCOUNT");
             break;
         case "register":
             print htmlspecialchars("👤ACCOUNT");
             break;
+        case "shop":
+            print htmlspecialchars("🛍️DIT IS DE SHOP");
+            break;
     }
-
     print "</h2></header>";
 }
 
+//===========================================
+// Show navigation menu linking to each page
+//===========================================
+function showNav()
+{
+    print "
+    <div class='navbar'>
+        <ul class='nav'>
+            <li><a href='?page=home'>".htmlspecialchars("🏠HOME")."</a></li>
+            <li><a href='?page=about'>".htmlspecialchars("ℹ️ABOUT")."</a></li>
+            <li><a href='?page=contact'>".htmlspecialchars("📞CONTACT")."</a></li>
+            <li><a href='?page=shop'>".htmlspecialchars("🛍️SHOP")."</a></li>
+            <span class='account'><form method='post' id='logout' name='logout'><input type='hidden' name='page' value='logout'>";
+            showLogIn(); print "</form></span>
+        </ul>
+    </div>
+    </div>
+    ";
+}
 
 //====================================================
 // If userID is set: show welcome message w/ username
@@ -118,15 +132,15 @@ function showLogIn()
     $current_user = getLoginSession();
     if (!empty($current_user))
     {
-        print "Welkom ".$current_user."!
-        <input type='hidden' value='logout' form='logout' name='logout'>
+        print "Welcome ".$current_user."!
+        <input type='hidden' value='logout' form='logout' name='page'>
         <button type='submit'> Log out </button>
         ";
     }
     
     else
     {
-        print "<a href='?page=account'>Log in/register</a>";
+        print "<a href='?page=login'>Log in/register</a>";
     }
 }
 
@@ -136,6 +150,7 @@ function showLogIn()
 //==================================================
 function showContent($data)
 {
+    print "<div class='content'>";
     switch($data["page"])
     {
         case "home":
@@ -150,13 +165,17 @@ function showContent($data)
         case "msg_sent":
             showMsgSentContent();
             break;
-        case "account":
+        case "login":
             showLoginContent();
             break;
         case "register":
             showRegisterContent();
             break;
+        case "shop":
+            showShopContent($data);
+            break;    
     }
+    print "</div>";
 
 }
 
@@ -198,7 +217,7 @@ function showContactContent()
                 </tr>
                 <tr>    
                     <td></td>
-                    <td style='text-align:right'><input type='submit' style='width:64px' form='contact' value='Send'></td>
+                    <td style='text-align:right'><input type='submit' style='width:64px' form='contact' value='Send'><input type='hidden' name='page' value='contact'></td>
                 </tr>
             </table>
         </form>
@@ -219,6 +238,61 @@ function showMsgSentContent()
 
 }
 
+function showShopContent($data)
+{
+    $products = getProductData();
+    if (!empty($data["product"]))
+    {
+        $product = $products[$data["product"]];
+        showProductDetails($product);
+    }
+    else
+    {
+        showProductOverview($products);
+    }
+     
+}
+
+function showProductOverview($products)
+{
+    print "
+    <div class='flex-container'>";            
+        
+    foreach($products as $product)
+        {
+            print "<div class=product>
+            <a href='?page=shop&product=".$product["id"]."'><img src=".$product["imgurl"]." width='94' height='94'><br>
+            " .$product["name"]. "</a><br> " .htmlspecialchars('€').$product["unitprice"]. "</div>";
+        }
+
+    print "</div>
+    "; 
+}
+
+function showProductDetails($product)
+{
+    print "<div class=product_detail>
+    <img style='float:left;margin-right:16px' src=".$product["imgurl"]." width='384' height='384'>
+    <section class=product_description>
+    <h1>".$product["name"]."</h1>
+    <p>".htmlspecialchars('€').$product["unitprice"]."</p>
+    ";showPurchaseButton(); // knop stuurt naar account page als niet ingelogd
+    print "</section></div>"; 
+}
+
+function showPurchaseButton()
+{
+    $current_user = getLoginSession();
+    if (!empty($current_user))
+    {
+        print "<br><button>!!!BUY BUY BUY!!!(WIP)</button>";
+    }
+    else
+    {
+        print "<br><a href='?page=login'><button>!!!BUY BUY BUY!!!(WIP)</button></a>";
+    }
+}
+
 function showLoginContent()
 {
     showLoginForm();
@@ -237,7 +311,7 @@ function showRegisterContent()
 function showLoginForm()
 {
     $login_form = validateLoginInput();
-    $login_form_data = array("email"=>"");
+    $login_form_data["email"] = "";
     if (($_SERVER["REQUEST_METHOD"] == "POST"))
     {
         $login_form_data = array_merge($login_form_data,$_POST);
@@ -259,7 +333,7 @@ function showLoginForm()
                 </tr>
                 <tr>
                     <td><a style=font-size:14px; href='?page=register'>Register account</a></td>
-                    <td style='text-align:right'><input style=width:64px; type='submit' value='Log in'></td>
+                    <td style='text-align:right'><input style=width:64px; type='submit' value='Log in'><input type='hidden' name='page' value='login'></td>
                 </tr>
             </table>
         </form>
@@ -300,8 +374,8 @@ function showRegisterForm()
                     <td><span class=error style=font-size:12px>".$reg_form_data["rpasswordErr"]."</span></td>
                 </tr>
                 <tr>
-                    <td><a style=font-size:14px; href='?page=account'>Log in instead</a></td>
-                    <td style=text-align:right><input style=width:80px; type='submit' value='Register'></td>
+                    <td><a style=font-size:14px; href='?page=login'>Log in instead</a></td>
+                    <td style=text-align:right><input style=width:80px; type='submit' value='Register'><input type='hidden' name='page' value='register'></td>
                 </tr>
             </table>
         </form>
@@ -331,9 +405,7 @@ function endBody()
 //=============================================
 function showFooter()
 {
-    print "<footer>
-    <p>".htmlspecialchars("©2023 Cas Jeurens")."</p>
-    </footer>";
+    print "<footer><p>".htmlspecialchars("©2023 Cas Jeurens")."</p></footer>";
 }
 
 

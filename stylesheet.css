@@ -1,10 +1,17 @@
 body 
 {
     margin: 0%;
-    font-size: 18px;
+    font-size: 14px;
     font-family: dubai;
     color: whitesmoke;
     background-color: lightslategrey;
+}
+
+.pagetop
+{
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 header 
@@ -12,8 +19,8 @@ header
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: grey;
-    min-height: 40px;
+    background-color: rgb(58, 106, 157);
+    min-height: 36px;
     text-align: center;
 }
 
@@ -25,13 +32,14 @@ footer
     width: 100%;
     color: white;
     background-color: black;
-    font-size: 10px;
+    font-size: 8px;
     text-align: right;
 }
 
-div.navbar
+.navbar
 {
-    background-color: aliceblue;
+    background-color: rgb(255, 255, 255);
+    width: 100%;
 }
 
 ul.nav 
@@ -51,7 +59,13 @@ li
     display: inline;
 }
 
-
+.content
+{
+    margin-top: 120px;
+    margin-bottom: 38px;
+    margin-left: 24px;
+    margin-right: 24px;
+}
 
 input.contact 
 {
@@ -89,8 +103,21 @@ select
 {
     height: 42px;
     width: 128px;
-    background-color: none;
+    background-color: black;
     border: 0.2rem solid #5A9EA5;
     border-radius: 10px;
     text-align: center;
 }
+
+.flex-container
+{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.product
+{
+    padding: 24px;
+}
+
