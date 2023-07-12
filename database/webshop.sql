@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 04, 2023 at 02:06 PM
+-- Generation Time: Jul 12, 2023 at 03:42 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,80 @@ SET time_zone = "+00:00";
 --
 -- Database: `webshop`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `units` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `order_id`, `user_id`, `product_id`, `units`) VALUES
+(1, 3, 3, 6, 1),
+(2, 3, 3, 7, 3),
+(3, 4, 3, 4, 1),
+(4, 5, 1, 1, 4),
+(5, 6, 1, 3, 1),
+(6, 7, 1, 4, 3),
+(7, 7, 1, 19, 4),
+(8, 7, 1, 41, 2),
+(9, 8, 1, 4, 2),
+(10, 8, 1, 14, 3),
+(11, 9, 1, 3, 1),
+(12, 10, 1, 4, 1),
+(13, 11, 1, 3, 1),
+(14, 12, 1, 3, 1),
+(15, 13, 1, 0, 0),
+(16, 13, 1, 4, 1),
+(17, 14, 1, 3, 3),
+(18, 15, 1, 12, 1),
+(19, 15, 1, 4, 1),
+(20, 15, 1, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `user_id` varchar(64) NOT NULL,
+  `date` date NOT NULL,
+  `status` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `date`, `status`) VALUES
+(1, '3', '2023-07-12', 'new'),
+(2, '3', '2023-07-12', 'new'),
+(3, '3', '2023-07-12', 'new'),
+(4, '3', '2023-07-12', 'new'),
+(5, '1', '2023-07-12', 'new'),
+(6, '1', '2023-07-12', 'new'),
+(7, '1', '2023-07-12', 'new'),
+(8, '1', '2023-07-12', 'new'),
+(9, '1', '2023-07-12', 'new'),
+(10, '1', '2023-07-12', 'new'),
+(11, '1', '2023-07-12', 'new'),
+(12, '1', '2023-07-12', 'new'),
+(13, '1', '2023-07-12', 'new'),
+(14, '1', '2023-07-12', 'new'),
+(15, '1', '2023-07-12', 'new');
 
 -- --------------------------------------------------------
 
@@ -152,6 +226,18 @@ INSERT INTO `products` (`id`, `imgurl`, `name`, `unitprice`) VALUES
 --
 
 --
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -160,6 +246,18 @@ ALTER TABLE `products`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `products`
