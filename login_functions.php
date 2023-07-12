@@ -53,7 +53,7 @@ function validateLoginPassword($login_input)
 
     $result['emailMatch'] = true;
     
-    if(strcmp($login_input["pass"],$user_info["pass"]) != 0) 
+    if(strcmp($login_input["pass"],$user_info["password"]) != 0) 
     {
         return $result;
     }
@@ -61,8 +61,6 @@ function validateLoginPassword($login_input)
     $result['passwordMatch'] = TRUE;
     $result['valid'] = TRUE;
     $result['username'] = $user_info['username']; 
-    
-    
        
     return $result;
 }

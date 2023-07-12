@@ -121,3 +121,9 @@ select
     padding: 24px;
 }
 
+.cart
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

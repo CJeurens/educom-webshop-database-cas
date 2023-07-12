@@ -2,12 +2,8 @@
 include "data_layer.php";
 include "login_functions.php";
 include "register_functions.php";
+include "shop_functions.php";
 
-
-
-//================================================================================
-// Check if page value in URL exists and not NULL, then set $pageID to that value
-//================================================================================
 function getPage()
 {
     if ($_SERVER["REQUEST_METHOD"] == "GET")
@@ -23,7 +19,8 @@ function getPage()
         }
         else
         {
-            return "home";
+            $get_return["page"] = "home";
+            return $get_return;
         }   
     }
 
@@ -36,17 +33,17 @@ function getPage()
         }
         else
         {
-            return "home";
+            $post_return = getCurrentPage();
+            return $post_return;
         }
     }
 }
-
 
 //===================================================================
 // Looks at result of different forms only on their respective pages
 //===================================================================
 function handleRequest($pageID) 
-{
+{ 
     switch($pageID["page"]) 
     {
         case 'login':
@@ -54,7 +51,16 @@ function handleRequest($pageID)
             if ($data["valid"])
             {
                 doLoginSession($data);
-                $pageID["page"] = "home";
+                if (isset($_GET["referral"]))
+                {
+                    //$pageID["page"] = "shop";
+                    //$pageID["product"] = $_GET["referral"];
+                    header("location: ?page=shop&product=".$_GET["referral"]."");
+                }
+                else
+                {
+                    $pageID["page"] = "home";
+                }
             }
             break;
         case 'register':
@@ -64,7 +70,7 @@ function handleRequest($pageID)
                 $pageID["page"] = "home";
             }
             break;
-        case 'contact':            
+        case 'contact':     
             $form_data = validateContactInput();
             if ($form_data["valid"])
             {
@@ -73,16 +79,29 @@ function handleRequest($pageID)
             break;
         case 'logout':
             doLogoutSession();
-            $pageID["page"] = "home";
+            if (($_GET["page"] == "cart") OR ($_GET["page"] == "login"))
+            {
+                $pageID["page"] = "home";
+                return $pageID;
+            }
+            return getCurrentPage();
+            break;
+        case 'shop':
+            $pageID = addToCart($pageID);
+            return $pageID;
+            break;
+        case 'cart':
+            placeOrder();
+            removeFromCart();
+            return $pageID;
             break;
     }
+
     $data = $pageID;
     return $data;
 }
 
-//==================================
-// 
-//==================================
+
 function validateContactInput()
 {
     $form_data = array("name"=>"","email"=>"","msg"=>"","nameErr"=>"","emailErr"=>"","msgErr"=>"","valid"=>FALSE); // create empty array with necessary keys
@@ -114,7 +133,6 @@ function validateContactInput()
     return $form_data;
 }
 
-
 //=====================================================
 // Check whether log out form is submitted
 // If valid: set userID to NULL and return to homepage
@@ -124,7 +142,6 @@ function doLogoutSession()
 {
     $_SESSION["userID"] = NULL;
 }
-
 
 //======================================
 // retrieves currently logged in userID
