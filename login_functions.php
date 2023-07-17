@@ -8,22 +8,15 @@
 //========================================================================
 function validateLoginInput()
 {
-    $login_input = array("email"=>"","name"=>"","pass"=>"","emailErr"=>"","passwordErr"=>"","emailMatch"=>"","valid"=>"");
+    $login_input = retrieveLoginInput();
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $login_input = array_merge($login_input,retrieveLoginInput());
-        if ($login_input["email"] == NULL)
+        $login_input["emailErr"] = empty($login_input["email"]) ? "Please enter e-mail" : "";
+        $login_input["passwordErr"] = empty($login_input["password"]) ? "Please enter password" : "";
+        
+        if ($login_input["email"] != NULL && $login_input["password"] != NULL)
         {
-            $login_input["emailErr"] = "Please enter e-mail";
-        }
-        if ($login_input["pass"] == NULL)
-        {
-            $login_input["passwordErr"] = "Please enter password";
-        }
-
-        if ($login_input["email"] != NULL && $login_input["pass"] != NULL)
-        {
-            $login_input = array_merge($login_input,validateLoginPassword($login_input));
+            $login_input = validateLoginPassword($login_input);
             if (!$login_input["emailMatch"])
             {
                 $login_input["emailErr"] = "Incorrect e-mail";
@@ -38,41 +31,43 @@ function validateLoginInput()
 }
 
 
-//=====================================================================================================
-// Compares password in user_info with password in login_input, then sets valid/error keys accordingly
-//=====================================================================================================
+//===============================================================================================
+// Compares password in user_info with password in login_input, then sets array keys accordingly
+//===============================================================================================
 function validateLoginPassword($login_input)
 {
-    $result = array('emailMatch' => false, 'passwordMatch' => false, "valid"=>FALSE);
+    $login_input["emailMatch"] = FALSE;
+    $login_input["passwordMatch"] = FALSE;
+
     $email = $login_input["email"];
     $user_info = retrieveUserInfo($email);   
     if (empty($user_info)) 
     {
-        return $result; 
+        return $login_input; 
     }
 
-    $result['emailMatch'] = true;
+    $login_input['emailMatch'] = TRUE;
     
-    if(strcmp($login_input["pass"],$user_info["password"]) != 0) 
+    if(strcmp($login_input["password"],$user_info["password"]) != 0) 
     {
-        return $result;
+        return $login_input;
     }
 
-    $result['passwordMatch'] = TRUE;
-    $result['valid'] = TRUE;
-    $result['username'] = $user_info['username']; 
+    $login_input["passwordMatch"] = TRUE;
+    $login_input['valid'] = TRUE;
+    $login_input['username'] = $user_info['username']; 
        
-    return $result;
+    return $login_input;
 }
 
 //========================
 // Logs in user w/ userID
 //========================
-function doLoginSession($result)
+function doLoginSession($data)
 {
-    if ($result["valid"])
+    if ($data["valid"])
     {
-        $_SESSION["userID"] = $result["username"];
+        $_SESSION["userID"] = $data["username"];
     }
 }
 

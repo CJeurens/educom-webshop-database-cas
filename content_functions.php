@@ -164,7 +164,7 @@ function showProductDetails($product)
     <section class=product_description>
     <h1>".$product["name"]."</h1>
     <p>".htmlspecialchars('€').$product["unitprice"]."</p>
-    ";showPurchaseButton($product); // knop stuurt naar account page als niet ingelogd
+    ";showPurchaseButton($product); // send to account page if not logged in
     print "</section></div>"; 
 }
 
@@ -195,37 +195,20 @@ function showShoppingCart()
     print "<a href='?page=cart'>".htmlspecialchars('🛒')."(".$units_total.")</a>";
 }
 
-function showLoginContent()
-{
-    showLoginForm();
-    validateLoginInput();
-}
-
-function showRegisterContent()
-{
-    showRegisterForm();
-    validateRegInput();
-}
 
 //=================================
 // Shows the table with login form
 //=================================
-function showLoginForm()
+function showLoginContent()
 {
     $login_form = validateLoginInput();
-    $login_form_data["email"] = "";
-    if (($_SERVER["REQUEST_METHOD"] == "POST"))
-    {
-        $login_form_data = array_merge($login_form_data,$_POST);
-    };
-       
     print "
     <div class=sidebar style=height:135px>
         <form method='post'>
             <table>
                 <tr>
                     <td style='text-align:right'>E-mail:</td>
-                    <td><input type='text' name='email' value='".$login_form_data["email"]."'></td>
+                    <td><input type='text' name='email' value='".$login_form["email"]."'></td>
                     <td><span class=error style=font-size:12px>".$login_form["emailErr"]."</span></td>
                 </tr>
                 <tr>
@@ -246,7 +229,7 @@ function showLoginForm()
 //====================================
 // Shows the table with register form
 //====================================
-function showRegisterForm()
+function showRegisterContent()
 {
     $reg_form_data = validateRegInput();
     print "
@@ -270,7 +253,7 @@ function showRegisterForm()
                 </tr>
                 <tr>
                     <td style='text-align:right'>Repeat password:</td>
-                    <td><input type='text' name='password_repeat'></td>
+                    <td><input type='text' name='rpassword'></td>
                     <td><span class=error style=font-size:12px>".$reg_form_data["rpasswordErr"]."</span></td>
                 </tr>
                 <tr>

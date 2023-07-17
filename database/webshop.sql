@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2023 at 03:42 PM
+-- Generation Time: Jul 17, 2023 at 10:23 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -59,7 +59,8 @@ INSERT INTO `cart` (`id`, `order_id`, `user_id`, `product_id`, `units`) VALUES
 (17, 14, 1, 3, 3),
 (18, 15, 1, 12, 1),
 (19, 15, 1, 4, 1),
-(20, 15, 1, 3, 1);
+(20, 15, 1, 3, 1),
+(21, 16, 1, 5, 4);
 
 -- --------------------------------------------------------
 
@@ -93,7 +94,8 @@ INSERT INTO `orders` (`id`, `user_id`, `date`, `status`) VALUES
 (12, '1', '2023-07-12', 'new'),
 (13, '1', '2023-07-12', 'new'),
 (14, '1', '2023-07-12', 'new'),
-(15, '1', '2023-07-12', 'new');
+(15, '1', '2023-07-12', 'new'),
+(16, '1', '2023-07-17', 'new');
 
 -- --------------------------------------------------------
 
@@ -251,13 +253,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `products`

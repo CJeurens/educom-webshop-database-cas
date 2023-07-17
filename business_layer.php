@@ -67,6 +67,7 @@ function handleRequest($pageID)
             $user_login = validateRegInput();
             if ($user_login["valid"])
             {
+                doLoginSession($user_login);
                 $pageID["page"] = "home";
             }
             break;
@@ -77,7 +78,7 @@ function handleRequest($pageID)
                 $pageID["page"] =  "msg_sent";
             }
             break;
-        case 'logout':
+        case 'logout':              //stay on page except for cart or login
             doLogoutSession();
             if (($_GET["page"] == "cart") OR ($_GET["page"] == "login"))
             {
@@ -104,26 +105,13 @@ function handleRequest($pageID)
 
 function validateContactInput()
 {
-    $form_data = array("name"=>"","email"=>"","msg"=>"","nameErr"=>"","emailErr"=>"","msgErr"=>"","valid"=>FALSE); // create empty array with necessary keys
+    $form_data = retrieveContactInput();
 
     if (($_SERVER["REQUEST_METHOD"] == "POST"))
     {        
-        $form_data = array_merge($form_data,retrieveContactInput()); //fill empty array with result from retrieveContactInput
-
-        if (empty($form_data["name"]))
-        {
-            $form_data["nameErr"] = "Please fill in a name";
-        }
-
-        if (empty($form_data["email"]))
-        {
-            $form_data["emailErr"] = "Please fill in an e-mail adress";
-        }
-
-        if (empty($form_data["msg"]))
-        {
-            $form_data["msgErr"] = "Please fill in a message";
-        }
+        $form_data["nameErr"] = empty($form_data["name"]) ? "Please fill in a name" : "";
+        $form_data["emailErr"] = empty($form_data["email"]) ? "Please fill in an e-mail adress" : "";
+        $form_data["msgErr"] = empty($form_data["msg"]) ? "Please fill in a message" : "";
 
         if (empty($form_data["nameErr"]) && empty($form_data["emailErr"]) && empty($form_data["msgErr"]) != NULL) 
         {
