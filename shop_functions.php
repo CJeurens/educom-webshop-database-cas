@@ -1,5 +1,8 @@
 <?php
 
+//=============================================================
+// add product data (id, imgurl, etc.) to each product in cart
+//=============================================================
 function consolidateCartData($cart_product)
 {
     $products = getCartProductData($cart_product["product_id"]);
@@ -10,6 +13,9 @@ function consolidateCartData($cart_product)
     return $product;
 }
 
+//================================================
+// disable order button if shopping cart is empty
+//================================================
 function disableOrderButton()
 {
     $user_cart = getUserCartData();

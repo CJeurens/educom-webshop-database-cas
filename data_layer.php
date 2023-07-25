@@ -176,7 +176,9 @@ function getUserCartData()
     $row = mysqli_fetch_row($result);
     $userID = $row[0];
 
-    $user_cart = array("userID"=>$userID,"cart"=>$_SESSION["cart"]["".$_SESSION["userID"].""]);
+    //$user_cart = array("userID"=>$userID,"cart"=>$_SESSION["cart"]["".$_SESSION["userID"].""]);
+    $user_cart["userID"] = $userID;
+    $user_cart["cart"] = $_SESSION["cart"]["".$_SESSION["userID"].""];
 
     mysqli_close($conn);
     return $user_cart;
@@ -269,11 +271,11 @@ function addToCart($pageID)
 {
     if (($_SERVER["REQUEST_METHOD"] == "POST"))
     {
-        $add = $_POST["units"];
+        $units = $_POST["units"];
         $id = $_POST["product_id"];
         $userID = $_SESSION["userID"];
 
-        $_SESSION["cart"][$userID][$id] = array("product_id"=>$id,"units"=>$add);
+        $_SESSION["cart"][$userID][$id] = array("product_id"=>$id,"units"=>$units);
         $pageID["product"] = "";
         return $pageID;
     }
