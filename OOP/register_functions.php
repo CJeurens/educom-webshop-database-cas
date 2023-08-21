@@ -8,7 +8,32 @@
 //==============================================================================
 function validateRegInput()
 {
-    $reg_form_data = retrieveRegInput();
+    //$reg_form_data = retrieveRegInput();
+
+    require_once "sanitize_data.php";
+    $sanitize = new SanitizeData;
+
+    require_once "retrievepost.php";
+    $data = new RetrievePost
+    (
+        array
+        (
+            "email",
+            "username",
+            "password",
+            "rpassword",
+            "emailErr",
+            "usernameErr",
+            "passwordErr",
+            "rpasswordErr"
+        ),
+        $sanitize
+    );
+
+    $reg_form_data = $data->retrieve();
+    $reg_form_data["valid"] = FALSE;
+    var_dump($reg_form_data);
+
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $reg_form_data["emailErr"] = empty($reg_form_data["email"]) ? "Please fill in an e-mail adress" : "";

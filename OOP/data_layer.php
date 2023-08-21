@@ -7,12 +7,7 @@ $conn_users = new ConnectMySQLi(
     database: "users"
 );
 
-$conn_webshop = new ConnectMySQLi(
-    servername: "localhost",
-    username: "root",
-    password: "",
-    database: "webshop"
-);
+
 
 
 //==============================================
@@ -33,26 +28,28 @@ $conn_webshop = new ConnectMySQLi(
     return $conn;
 }*/
 
-//======================
+//=======================================
 // sanitizes input data
-//======================
-function testInput($data) 
+//=======================================
+/*function testInput($data) 
 {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
-}
+}*/
 
 function getCurrentPage()
 {
     return $_GET;
 }
 
+
+
 //======================================================
 // returns array with sanitized input from contact form
 //======================================================
-function retrieveContactInput()
+/*function retrieveContactInput()
 {
     $return["name"] = isset($_POST["name"]) ? testInput($_POST["name"]) : "";
     $return["email"] = isset($_POST["email"]) ? testInput($_POST["email"]) : "";
@@ -63,12 +60,12 @@ function retrieveContactInput()
     $return["valid"] = FALSE;
     
     return $return;
-}
+}*/
 
-//=====================================================
+//====================================================
 // returns array with sanitized input from login form
-//=====================================================
-function retrieveLoginInput()
+//====================================================
+/*function retrieveLoginInput()
 {
     $return["email"] = isset($_POST["email"]) ? testInput($_POST["email"]) : "";
     $return["password"] = isset($_POST["password"]) ? testInput($_POST["password"]) : "";
@@ -77,12 +74,12 @@ function retrieveLoginInput()
     $return["valid"] = FALSE;
 
     return $return;
-}
+}*/
 
 //===========================================================
 // returns array with sanitized input from registration form
 //===========================================================
-function retrieveRegInput()
+/*function retrieveRegInput()
 {
     $return["email"] = isset($_POST["email"]) ? testInput($_POST["email"]) : "";
     $return["username"] = isset($_POST["username"]) ? testInput($_POST["username"]) : "";
@@ -95,18 +92,27 @@ function retrieveRegInput()
     $return["valid"] = FALSE;
 
     return $return;
-}
+}*/
+
 
 //=========================================================================
 // returns array with email and corresponding username from users database
 //=========================================================================
-function retrieveUserInfo($email)
+/*function retrieveUserInfo($email)
 {
-    
-    
+
+    require_once "connectmysqli.php";
+    $conn_users = new ConnectMySQLi(
+        servername: "localhost",
+        username: "root",
+        password: "",
+        database: "users"
+    );  
+
+
     try
     {
-        $this->conn_users->connectMySQLi();
+        $conn_users->connectMySQLi();
         //$conn = connectMySQLi("users");
     }
     catch (Exception $e)
@@ -114,14 +120,16 @@ function retrieveUserInfo($email)
         print "We are experiencing some technical issues, please try again at a later time.";
         return array();
     }
-    $email = mysqli_real_escape_string($this->conn_users,$email);
+    $conn=$conn_users->connectMySQLi();
+    $email = mysqli_real_escape_string($conn,$email);
     $sql = "SELECT email, username, password FROM users WHERE email='".$email."'";
-    $result = mysqli_query($this->conn_users,$sql);     
+    $result = mysqli_query($conn,$sql);     
     $row = mysqli_fetch_assoc($result);
     
-    mysqli_close($this->conn_users);
+    var_dump($row);
+    mysqli_close($conn);
     return $row;
-}
+}*/
 
 //===========================================
 // adds new valid user info to user database
@@ -130,7 +138,7 @@ function addUserToDB($new_user)
 {
     try
     {
-        $this->conn_users->connectMySQLi();
+        $conn_users->connectMySQLi();
         //$conn = connectMySQLi("users");
     }
     catch (Exception $e)
@@ -138,12 +146,12 @@ function addUserToDB($new_user)
         print "We are experiencing some technical issues, please try again at a later time.";
         return array();
     }
-    $email = mysqli_real_escape_string($this->conn_users,$new_user["email"]);
-    $username = mysqli_real_escape_string($this->conn_users,$new_user["username"]);
-    $password = mysqli_real_escape_string($this->conn_users,$new_user["password"]);
+    $email = mysqli_real_escape_string($conn_users,$new_user["email"]);
+    $username = mysqli_real_escape_string($conn_users,$new_user["username"]);
+    $password = mysqli_real_escape_string($conn_users,$new_user["password"]);
 
     $sql = "INSERT INTO users (email, username, password) VALUES ('".$email."','".$username."','".$password."')";
-    mysqli_query($this->conn_users,$sql);       
+    mysqli_query($conn_users,$sql);       
 }
 
 //===============================================
@@ -153,7 +161,13 @@ function getProductData()
 {
     try
     {
-        $this->conn_webshop->connectMySQLi();
+        $conn_webshop = new ConnectMySQLi(
+            servername: "localhost",
+            username: "root",
+            password: "",
+            database: "webshop"
+        );
+        $conn = $conn_webshop->connectMySQLi();
         //$conn = connectMySQLi("webshop");
     }
     catch (Exception $e)
@@ -163,7 +177,7 @@ function getProductData()
     }
     
     $sql = "SELECT id,imgurl,name,unitprice FROM products";
-    $result = mysqli_query($this->conn_webshop,$sql);     
+    $result = mysqli_query($conn,$sql);     
     $products = array();
 
     while ($row = mysqli_fetch_assoc($result))
@@ -171,7 +185,7 @@ function getProductData()
         $products[$row['id']] = $row;
     }
 
-    mysqli_close($this->conn_webshop);
+    mysqli_close($conn);
     return $products;
 }
 
@@ -183,7 +197,7 @@ function getUserCartData()
     initializeCart();
     try
     {
-        $this->conn_users->connectMySQLi();
+        $conn_users->connectMySQLi();
         //$conn = connectMySQLi("users");
     }
     catch (Exception $e)
@@ -192,7 +206,7 @@ function getUserCartData()
         return array();
     }
     $sql = "SELECT id FROM users WHERE username='".$_SESSION["userID"]."'";
-    $result = mysqli_query($this->conn_users,$sql);     
+    $result = mysqli_query($conn_users,$sql);     
 
     $row = mysqli_fetch_row($result);
     $userID = $row[0];
@@ -201,7 +215,7 @@ function getUserCartData()
     $user_cart["userID"] = $userID;
     $user_cart["cart"] = $_SESSION["cart"]["".$_SESSION["userID"].""];
 
-    mysqli_close($this->conn_users);
+    mysqli_close($conn_users);
     return $user_cart;
 }
 
@@ -212,7 +226,7 @@ function getCartProductData($product_id)
 {
     try
     {
-        $this->conn_webshop->connectMySQLi();
+        $conn_webshop->connectMySQLi();
         //$conn = connectMySQLi("webshop");
     }
     catch (Exception $e)
@@ -221,7 +235,7 @@ function getCartProductData($product_id)
         return array();
     }
     $sql = "SELECT id,imgurl,name,unitprice FROM products WHERE id='".$product_id."'";
-    $result = mysqli_query($this->conn_webshop,$sql);     
+    $result = mysqli_query($conn_webshop,$sql);     
     $products = array();
 
     while ($row = mysqli_fetch_assoc($result))
@@ -229,7 +243,7 @@ function getCartProductData($product_id)
         $products[$row['id']] = $row;
     }
 
-    mysqli_close($this->conn_webshop);
+    mysqli_close($conn_webshop);
     return $products;
 }
 
@@ -247,22 +261,22 @@ function placeOrder()
 
             if (!empty($cart))
             {        
-                $this->conn_webshop->connectMySQLi();        
+                $conn_webshop->connectMySQLi();        
                 //$conn = connectMySQLi("webshop"); //create order entry
                 $sql = "INSERT into orders (user_id,date,status) VALUES ('".$user_cart["userID"]."','".date("Y/m/d")."','new')";
     
-                mysqli_query($this->conn_webshop,$sql);
-                $last_id = mysqli_insert_id($this->conn_webshop);
+                mysqli_query($conn_webshop,$sql);
+                $last_id = mysqli_insert_id($conn_webshop);
     
-                mysqli_close($this->conn_webshop);
+                mysqli_close($conn_webshop);
     
                 foreach ($cart as $cart_product) //create cart entries
                 {
-                    $this->conn_webshop = connectMySQLi("webshop");
+                    $conn_webshop = connectMySQLi("webshop");
                     $sql = "INSERT into cart (order_id,user_id,product_id,units) VALUES ('".$last_id."','".$user_cart["userID"]."','".$cart_product["product_id"]."','".$cart_product["units"]."')";
     
-                    mysqli_query($this->conn_webshop,$sql);
-                    mysqli_close($this->conn_webshop);
+                    mysqli_query($conn_webshop,$sql);
+                    mysqli_close($conn_webshop);
                 }
     
                 //clearcart

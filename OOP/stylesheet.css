@@ -76,6 +76,7 @@ input.contact
 {
     color: red;
     font-weight: bold;
+    font-size: 12px;
 }
 
 div.sidebar
@@ -126,4 +127,9 @@ select
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+form
+{
+    text-align: right;
 }

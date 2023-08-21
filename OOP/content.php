@@ -26,7 +26,32 @@ class Content
                 showMsgSentContent();
                 break;
             case "login":
-                showLoginContent();
+                print "<div class=sidebar>";
+                require_once "form.php";
+                $showLoginForm = new Form(
+                    method:"POST",
+                    fields: array
+                    (
+                        "email" =>  array(
+                                        "name"  =>  "email",
+                                        "label" =>  "E-mail:",
+                                        "type"  =>  "text",
+                                        "value" =>  "",
+                                        "error" =>  ""
+                        ),
+                        "password"  =>  array(
+                                        "name"  =>  "password",
+                                        "label" =>  "Password:",
+                                        "type"  =>  "text",
+                                        "value" =>  "",
+                                        "error" =>  ""
+                        )
+                    )
+                );
+                $showLoginForm->showForm();
+                print "</div>";
+                validateLoginInput();
+                //showLoginContent();
                 break;
             case "register":
                 showRegisterContent();

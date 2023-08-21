@@ -196,10 +196,15 @@ function showShoppingCart()
 }
 
 
+
+
+
+
+
 //=================================
 // Shows the table with login form
 //=================================
-function showLoginContent()
+/*function showLoginContent()
 {
     $login_form = validateLoginInput();
     print "
@@ -224,7 +229,7 @@ function showLoginContent()
         </form>
     </div>
     ";
-}
+}*/
 
 //====================================
 // Shows the table with register form

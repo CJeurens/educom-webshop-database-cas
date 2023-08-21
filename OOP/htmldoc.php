@@ -41,7 +41,7 @@ class HtmlDoc
     protected function showHeadContent() 
     { 
         print "<meta charset='UTF-8'>".$this->setTitle($this->getPage->getPage()).
-        "<link rel='stylesheet' href='/educom-webshop-database-cas/stylesheet.css'>";
+        "<link rel='stylesheet' href='/educom-webshop-database-cas/oop/stylesheet.css'>";
     }
     
     protected function setTitle($data)

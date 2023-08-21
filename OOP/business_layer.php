@@ -105,7 +105,28 @@ function handleRequest($pageID)
 
 function validateContactInput()
 {
-    $form_data = retrieveContactInput();
+    //$form_data = retrieveContactInput();
+
+    require_once "sanitize_data.php";
+    $sanitize = new SanitizeData;
+
+    require_once "retrievepost.php";
+    $retrieve_data = new RetrievePost
+    (
+        array
+        (
+            "name",
+            "email",
+            "msg",
+            "nameErr",
+            "emailErr",
+            "msgError"
+        ),
+        $sanitize
+    );
+    $form_data=$retrieve_data->retrieve();
+    $form_data["valid"] = FALSE;
+
 
     if (($_SERVER["REQUEST_METHOD"] == "POST"))
     {        

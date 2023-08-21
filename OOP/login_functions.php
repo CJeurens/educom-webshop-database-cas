@@ -8,7 +8,26 @@
 //========================================================================
 function validateLoginInput()
 {
-    $login_input = retrieveLoginInput();
+    //$login_input = retrieveLoginInput();
+    require_once "sanitize_data.php";
+    $sanitize = new SanitizeData;
+
+    require_once "retrievepost.php";
+    $data = new RetrievePost
+    (
+        array
+        (
+            "email",
+            "password",
+            "emailErr",
+            "passwordErr"
+        ),
+        $sanitize
+    );
+
+    $login_input = $data->retrieve();
+    $login_input["valid"] = FALSE;
+
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $login_input["emailErr"] = empty($login_input["email"]) ? "Please enter e-mail" : "";
@@ -36,11 +55,26 @@ function validateLoginInput()
 //===============================================================================================
 function validateLoginPassword($login_input)
 {
+
+    
     $login_input["emailMatch"] = FALSE;
     $login_input["passwordMatch"] = FALSE;
 
     $email = $login_input["email"];
-    $user_info = retrieveUserInfo($email);   
+
+    require_once "connectmysqli.php";
+    $conn_users = new ConnectMySQLi(
+        servername: "localhost",
+        username: "root",
+        password: "",
+        database: "users"
+    ); 
+
+    require_once "RetrieveUserInfo.php";
+    $info = new RetrieveUserInfo($email,$conn_users);
+    $user_info = $info->retrieve();
+
+    //$user_info = retrieveUserInfo($email);   
     if (empty($user_info)) 
     {
         return $login_input; 
