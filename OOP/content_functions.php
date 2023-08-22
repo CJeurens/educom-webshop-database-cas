@@ -1,18 +1,23 @@
 <?php
 
-function showHomeContent()
+
+
+
+
+
+/*function showHomeContent()
 {
     print "<p>Van harte welkom op deze zeer mooie webpagina!</p>";
-}
+}*/
 
-function showAboutContent()
+/*function showAboutContent()
 {
     print "
     <p>Deze webpagina is speciaal ontwikkeld om mij te helpen de html-taal te leren.</p>
     <p>Ik heb biologie gestudeerd aan Wageningen University & Research waar ik coole dingen heb geleerd over plantjes, diertjes en ander gespuis.</p> 
     <p>Tevens ben ik opgegroeid in Roermond waar ik talloze vlaaien heb gegeten. Mijn favoriet is appel-citroen.</p>
     ";
-}
+}*/
 
 function showContactContent()
 {

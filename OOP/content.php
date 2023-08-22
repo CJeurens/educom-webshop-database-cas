@@ -14,10 +14,16 @@ class Content
         switch($data["page"])
         {
             case "home":
-                showHomeContent();
+                require_once "content_text_home.php";
+                $showHome = new ContentTextHome();
+                $showHome->show();
+                //showHomeContent();
                 break;
             case "about":
-                showAboutContent();
+                require_once "content_text_about.php";
+                $showAbout = new ContentTextAbout();
+                $showAbout->show();
+                //showAboutContent();
                 break;
             case "contact":
                 showContactContent();
@@ -27,31 +33,11 @@ class Content
                 break;
             case "login":
                 print "<div class=sidebar>";
-                require_once "form.php";
-                $showLoginForm = new Form(
-                    method:"POST",
-                    fields: array
-                    (
-                        "email" =>  array(
-                                        "name"  =>  "email",
-                                        "label" =>  "E-mail:",
-                                        "type"  =>  "text",
-                                        "value" =>  "",
-                                        "error" =>  ""
-                        ),
-                        "password"  =>  array(
-                                        "name"  =>  "password",
-                                        "label" =>  "Password:",
-                                        "type"  =>  "text",
-                                        "value" =>  "",
-                                        "error" =>  ""
-                        )
-                    )
-                );
+                require_once "login_form.php";
+                $showLoginForm = new LoginForm();
                 $showLoginForm->showForm();
                 print "</div>";
                 validateLoginInput();
-                //showLoginContent();
                 break;
             case "register":
                 showRegisterContent();

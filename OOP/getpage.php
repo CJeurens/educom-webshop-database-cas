@@ -11,12 +11,14 @@ class GetPage
                 {
                     $get_return["product"] = $_GET["product"];
                 }
-                $get_return["page"] = $_GET["page"];
+                //$get_return["page"] = $_GET["page"];
+                $get_return = $_GET["page"];
                 return $get_return;
             }
             else
             {
-                $get_return["page"] = "home";
+                //$get_return["page"] = "home";
+                $get_return = "home";
                 return $get_return;
             }   
         }

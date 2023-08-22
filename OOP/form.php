@@ -28,7 +28,7 @@ class Form
         <form method=".$this->method.">
             <table>
                 ";
-                foreach ($this->fields as $field)
+                foreach ($this->fields as $fields=>$field)
                     {
                         print "
                         <tr>
@@ -37,6 +37,17 @@ class Form
                             <td><span class=error>".$field["error"]."</span></td>
                         </tr>
                         ";
+                        //validateMe
+
+                        /*if ($fields == "email")    //email validation
+                        {
+                            print "email detected🤖";
+                        }
+
+                        if ($fields == "password")    //password validation
+                        {
+                            print "password detected🤖";
+                        }*/
                     }
                 print "
                 <tr>
