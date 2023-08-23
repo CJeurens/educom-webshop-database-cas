@@ -11,6 +11,7 @@
      {
          $this->title = $title;
          $this->author = $author;
+         print "hallo";
      }
  
      public function show()

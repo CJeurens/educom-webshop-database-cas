@@ -2,7 +2,12 @@
     session_start();
     include 'presentation_layer.php';
  
-    mySwitch();
+    require_once "controller.php";
+    $page = new Controller;
+    $page->handleRequest();
+
+
+    /*mySwitch();
     function mySwitch()
     {
         require_once "getpage.php";
@@ -15,35 +20,44 @@
             "shop"      => "🛍️SHOP"
         );
 
+        $author = "Cas Jeurens";
+        $page = "";
+
         switch($getPage->getPage())
         {
             case "home":
                 require_once "page_home.php";
-                $homepage = new HomePage(
+                $page = new HomePage(
                     title: "🏠HOME",
                     header: "🏠DIT IS HOME",
                     navlinks: $navlinks,
-                    author: "Cas Jeurens");
-                $homepage->show();
+                    author: $author);
                 break;
             case "about":
                 require_once "page_about.php";
-                $aboutpage = new AboutPage(
+                $page = new AboutPage(
                     title: "ℹ️ABOUT",
                     header: "ℹ️DIT IS ABOUT",
                     navlinks: $navlinks,
-                    author: "Cas Jeurens");
-                $aboutpage->show();
+                    author: $author);
                 break;
             case "contact":
                 require_once "page_contact.php";
-                $contactpage = new ContactPage(
+                $page = new ContactPage(
                     title: "📞CONTACT",
                     header: "📞DIT IS CONTACT",
                     navlinks: $navlinks,
-                    author: "Cas Jeurens");
-                $contactpage->show();
+                    author: $author);
                 break;
+
         }
-    }
+        if (empty($page))
+        {
+            //error
+        }
+        else
+        {
+            $page->show();
+        }
+    }*/
 ?>

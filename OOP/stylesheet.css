@@ -79,12 +79,12 @@ input.contact
     font-size: 12px;
 }
 
-div.sidebar
+div.form
 {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 42px;
+    min-height: 225px;
 }
 
 table

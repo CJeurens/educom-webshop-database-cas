@@ -1,21 +1,23 @@
 <?php
 
-class TextContent
+require_once "appdoc.php";
+
+class TextContent extends AppDoc
 {
-    public function __construct(array $text)
+    public function __construct($title, $header, $navlinks, $text, $author)
     {
+        parent::__construct($title, $header, $navlinks, $author);
         $this->text = $text;
     }
 
-    public function show()
+    public function showMainContent()
     {
-        print "<div class='content'>";
         foreach ($this->text as $paragraph)
         {
-            print "<p>".$paragraph."</p>";
+            print "<p>".$paragraph."</p>".PHP_EOL;
         }
-        print "</div>";
     }
+    
 }
 
 ?>
