@@ -86,37 +86,143 @@ class Controller
                     ));
                 break;
             case "contact":
-                require_once "form_contact.php";
-                $page = new ContactForm(
+                require_once "form.php";
+                $page = new Form(
                     title: "📞CONTACT",
                     header: "📞DIT IS CONTACT",
                     navlinks: $navlinks,
                     author: $author,
                     form: "contact",
-                    method: "",
-                    fields: "");
+                    method: "POST",
+                    fields: array
+                    (
+                        "name"  =>  array(
+                                        "name"      =>  "name",
+                                        "label"     =>  "Name:",
+                                        "type"      =>  "text",
+                                        "default"   =>  "''"
+                        ),
+                        "email" =>  array(
+                                        "name"      =>  "email",
+                                        "label"     =>  "E-mail:",
+                                        "type"      =>  "text",
+                                        "default"   =>  "''"
+                        ),
+                        "msg" =>  array(
+                                        "name"      =>  "msg",
+                                        "label"     =>  "Message:",
+                                        "type"      =>  "textarea",
+                                        "default"   =>  "''"
+                        ),
+                        "submit" =>  array(
+                                        "name"      =>  "submit",
+                                        "label"     =>  "",
+                                        "type"      =>  "submit",
+                                        "default"   =>  "Send"
+                        ),
+                        "hidden" =>  array(
+                                        "name"      =>  "page",
+                                        "label"     =>  "",
+                                        "type"      =>  "hidden",
+                                        "default"   =>  "contact"
+                        )
+                    ));
                 break;
             case "login":
-                require_once "form_login.php";
-                $page = new LoginForm(
+                require_once "form.php";
+                $page = new Form(
                     title: "👤ACCOUNT",
                     header: "👤ACCOUNT",
                     navlinks: $navlinks,
                     author: $author,
                     form: "login",
-                    method: "",
-                    fields: "");
+                    method: "POST",
+                    fields: array
+                    (
+                        "email" =>  array(
+                                        "name"  =>  "email",
+                                        "label" =>  "E-mail:",
+                                        "type"  =>  "text",
+                                        "value" =>  "''",
+                                        "error" =>  ""
+                        ),
+                        "password"  =>  array(
+                                        "name"  =>  "password",
+                                        "label" =>  "Password:",
+                                        "type"  =>  "text",
+                                        "value" =>  "''",
+                                        "error" =>  ""
+                        ),
+                        "submit" =>  array(
+                                        "name"  =>  "''",
+                                        "label" =>  "<a style=font-size:14px; href='?page=register'>Register account</a>",
+                                        "type"  =>  "submit",
+                                        "value" =>  "'Log in'",
+                                        "error" =>  ""
+                        ),
+                        "hidden" =>  array(
+                                        "name"  =>  "page",
+                                        "label" =>  "",
+                                        "type"  =>  "hidden",
+                                        "value" =>  "login",
+                                        "error" =>  ""
+                        )
+                    ));
                 break;
             case "register":
-                require_once "form_register.php";
-                $page = new RegisterForm(
+                require_once "form.php";
+                $page = new Form(
                     title: "👤ACCOUNT",
                     header: "👤ACCOUNT",
                     navlinks: $navlinks,
                     author: $author,
                     form: "register",
-                    method: "",
-                    fields: "");
+                    method: "POST",
+                    fields: array
+                    (
+                        "email" =>  array(
+                                        "name"  =>  "email",
+                                        "label" =>  "E-mail:",
+                                        "type"  =>  "text",
+                                        "value" =>  "''",
+                                        "error" =>  ""
+                        ),
+                        "username" =>  array(
+                                        "name"  =>  "username",
+                                        "label" =>  "Username:",
+                                        "type"  =>  "text",
+                                        "value" =>  "''",
+                                        "error" =>  ""
+                        ),
+                        "password"  =>  array(
+                                        "name"  =>  "password",
+                                        "label" =>  "Password:",
+                                        "type"  =>  "text",
+                                        "value" =>  "''",
+                                        "error" =>  ""
+                        ),
+                        "rpassword"  =>  array(
+                                        "name"  =>  "rpassword",
+                                        "label" =>  "Repeat password:",
+                                        "type"  =>  "text",
+                                        "value" =>  "''",
+                                        "error" =>  ""
+                        ),
+                        "submit" =>  array(
+                                        "name"  =>  "''",
+                                        "label" =>  "<a style=font-size:14px; href='?page=login'>Log in instead</a>",
+                                        "type"  =>  "submit",
+                                        "value" =>  "Register",
+                                        "error" =>  ""
+                        ),
+                        "hidden" =>  array(
+                                        "name"  =>  "page",
+                                        "label" =>  "",
+                                        "type"  =>  "hidden",
+                                        "value" =>  "register",
+                                        "error" =>  ""
+                        )
+                    ));
                 break;
         }
         if (empty($page))

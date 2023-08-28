@@ -30,7 +30,6 @@ class Form extends AppDoc
     {
         $this->openForm();
         $this->mainForm();
-        $this->bottomRowForm();
         $this->closeForm();
     }
 
@@ -38,61 +37,67 @@ class Form extends AppDoc
     public function openForm()
     {
         print "<div class=form>
-        <form method=".$this->method.">
-            <table>
-                ";
+        <form method=".$this->method." id=".$this->form.">
+            <table>";
     }
 
     public function closeForm()
     {
         print "
         </table>
-        </form id=".$this->form."></div>
+        </form></div>
         ";
     }
 
-    public function validateField()
+    public function validateField($data)
     {
-        //print "validate test | ";
+        $result = array(
+            "value" => "",
+            "error" => ""
+        );
+        require_once "sanitize_data.php";
+        $input = new SanitizeData;
+        
+        if (empty($data))
+        {
+            $result["error"] = "ERROR";
+        }
+        else
+        {
+            $result["value"] = $input->sanitize($data);
+        }
+        return $result;
     }
 
     public function mainForm()
     {
         foreach ($this->fields as $fields=>$field)
             {
+                $field["error"] = "";
+                $check = isset($_POST[$field["name"]]) ? $this->validateField($_POST[$field["name"]]) : "";
+
+                $field["value"] = isset($_POST[$field["name"]]) ? $check["value"] : $field["default"];
+
+                //$field["error"] = $check["error"];
+
+                print PHP_EOL.
+"                <tr>".PHP_EOL.
+"                    <td>".$field["label"]."</td>";
                 if($field["type"] == "textarea")
                 {
-                    print "
-                    <tr>
-                        <td>".$field["label"]."</td>
-                        <td><textarea cols=42 rows=6 name=".$field["name"]." value=".$field["value"]."></textarea></td>
-                        <td><span class=error>".$field["error"]."</span></td>
-                    </tr>
-                    ";
+                    print PHP_EOL.
+"                    <td style='text-align:left'><textarea cols=42 rows=6 name=".$field["name"]."></textarea></td>";
                 }
                 else
                 {
-                    print "
-                    <tr>
-                        <td>".$field["label"]."</td>
-                        <td style='text-align:left'><input type=".$field["type"]." name=".$field["name"]." value=".$field["value"]."></td>
-                        <td><span class=error>".$field["error"]."</span></td>
-                    </tr>
-                    ";
+                    print PHP_EOL.
+"                    <td style='text-align:left'><input type=".$field["type"]." name=".$field["name"]." value=".$field["value"]."></td>";
                 }
-                $this->validateField();
+                print PHP_EOL.
+"                    <td><span class=error>".$field["error"]."</span></td>
+                </tr>";
             }       
     }
-
-    public function bottomRowForm()
-    {
-        print "
-        <tr>
-            <td></td>
-            <td><input type='submit'><input type='hidden' name='page' value=''></td>
-        </tr>";
-    }
-
 }
 
 ?>
