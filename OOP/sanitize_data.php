@@ -2,14 +2,36 @@
 
 class SanitizeData
 {
+    public $data;
+
     public function sanitize($data)
     {
-        $this->data = $data;
-        $this->data = trim($this->data);
-        $this->data = stripslashes($this->data);
-        $this->data = htmlspecialchars($this->data);
-        return $this->data;
+        if (gettype($data)==="array")
+        {
+            $return = array();
+            foreach ($data as $key=>$value)
+            {
+                $add = array($key=>$this->sanitizer($value));
+                $return = array_merge($return,$add);
+            }
+            return $return;
+        }
+
+        else
+        {
+            $return = $this->sanitizer($data);
+            return $return;
+        }
     }
+
+    public function sanitizer($value)
+    {
+        $value = trim($value);
+        $value = stripslashes($value);
+        $value = htmlspecialchars($value);
+        return $value;
+    }
+
 }
 
 ?>

@@ -14,7 +14,7 @@ class RetrievePost
         foreach ($this->inputs as $input)
         {
             $add = array(
-                $input => (isset($_POST[$input]) ? $this->sanitize->sanitize($_POST[$input]) : "")
+                $input => ["value" =>(isset($_POST[$input]) ? $this->sanitize->sanitize($_POST[$input]) : "")]
             );
             $return = array_merge($return,$add);
         }

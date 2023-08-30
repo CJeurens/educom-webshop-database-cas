@@ -14,15 +14,20 @@ Label: [        value ] [!]
 
 require_once "appdoc.php";
 
-class Form extends AppDoc
+class FormDoc extends AppDoc
 {
-    public function __construct($title, $header, $navlinks, $author, $form, $method, $fields)
+    public function __construct($content)
     {        
-        parent::__construct($title, $header, $navlinks, $author);
+        parent::__construct(
+            $content["title"],
+            $content["header"],
+            $content["navlinks"],
+            $content["author"]
+        );
 
-        $this->form = $form;
-        $this->method = $method;
-        $this->fields = $fields;
+        $this->form = $content["form"];
+        $this->method = $content["method"];
+        $this->fields = $content["fields"];
     }
 
 
@@ -73,12 +78,7 @@ class Form extends AppDoc
     {
         foreach ($this->fields as $fields=>$field)
             {
-                $field["error"] = "";
-                $check = isset($_POST[$field["name"]]) ? $this->validateField($_POST[$field["name"]]) : "";
-
-                $field["value"] = isset($_POST[$field["name"]]) ? $check["value"] : $field["default"];
-
-                //$field["error"] = $check["error"];
+                $field["error"] = "";   //placeholder
 
                 print PHP_EOL.
 "                <tr>".PHP_EOL.

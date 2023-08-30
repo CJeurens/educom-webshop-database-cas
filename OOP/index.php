@@ -2,8 +2,8 @@
     session_start();
     include 'presentation_layer.php';
  
-    require_once "controller.php";
-    $page = new Controller;
+    require_once "PageController.php";
+    $page = new PageController;
     $page->handleRequest();
 
 
