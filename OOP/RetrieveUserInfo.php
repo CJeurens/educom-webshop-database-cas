@@ -1,16 +1,15 @@
 <?php
 
-
-
 class RetrieveUserInfo
 {
 
 
 
-    public function __construct(string $email, ConnectMySQLi $conn_users)
+
+    public function __construct(string $email, ConnectMySqli $conn)
     {
         $this->email = $email;
-        $this->conn_users = $conn_users;
+        $this->conn = $conn;
     }
     
 
@@ -18,15 +17,22 @@ class RetrieveUserInfo
     public function retrieve()
     {
 
-        $conn=$this->conn_users->connectMySQLi();
-        $this->email = mysqli_real_escape_string($conn,$this->email);
+        $this->conn->connectMySqli();
+        //$this->email = mysqli_real_escape_string($conn,$this->email);
         $sql = "SELECT email, username, password FROM users WHERE email='".$this->email."'";
-        $result = mysqli_query($conn,$sql);     
-        $row = mysqli_fetch_assoc($result);
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute;
+        
+        $result = $sql->setFetchMode(PDO::FETCH_ASSOC);
+        /*foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v)
+        {
+            print $v;
+        }*/
+        $row = $sql->fetchAll();
         
         print "wow | ";
         var_dump($row);
-        mysqli_close($conn);
+        $conn = NULL;
         return $row;
     }
 }

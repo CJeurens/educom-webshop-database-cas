@@ -3,6 +3,7 @@ class PageController
 {
     private $request;
     private $response;
+    private $val_data;
     
     public function handleRequest()
     {
@@ -24,6 +25,7 @@ class PageController
     private function validateRequest()
     {
         $this->response = $this->request; // getoond == gevraagd
+        $val_data = "";
         if ($this->request['posted'])
         {
             switch ($this->request['page'])
@@ -31,16 +33,31 @@ class PageController
                 case "contact":
                     $fields = array("name", "email", "msg");
 
-                    require_once "sanitize_data.php";
+                    require_once "SanitizeData.php";
                     $sanitize = new SanitizeData;
 
-                    require_once "retrievepost.php";
+                    require_once "RetrievePost.php";
                     $post = new RetrievePost($fields, $sanitize);
                     $san_data = $post->retrieve();
 
-                    require_once "validator.php";
+                    require_once "Validator.php";
                     $validate = new Validator($san_data);
-                    $val_data=$validate->validate();
+                    $this->val_data = $validate->validate();
+                    break;
+
+                case "login":
+                    $fields = array("email", "password");
+
+                    require_once "SanitizeData.php";
+                    $sanitize = new SanitizeData;
+
+                    require_once "RetrievePost.php";
+                    $post = new RetrievePost($fields, $sanitize);
+                    $san_data = $post->retrieve();
+
+                    require_once "Validator.php";
+                    $validate = new Validator($san_data);
+                    $this->val_data = $validate->validate();
                     break;
             }
 
@@ -60,6 +77,15 @@ class PageController
         require_once "PageModel.php";
         $model = new PageModel;
         $content = $model->getPageContent($this->request);
+
+        if (!empty($this->val_data))
+        {
+            foreach ($this->val_data as $field=>$value)
+            {
+                $content["fields"][$field] = array_merge($content["fields"][$field],$this->val_data[$field]);
+            }
+        }
+
 
         if ($content)
         {

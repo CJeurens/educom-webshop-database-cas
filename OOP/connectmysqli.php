@@ -1,5 +1,5 @@
 <?php
-class ConnectMySQLi
+class ConnectMySqli
 {
     public function __construct(string $servername, string $username, string $password, string $database)
     {
@@ -10,19 +10,20 @@ class ConnectMySQLi
     }
 
 
-    public function connectMySQLi()
+    public function connectMySqli()
     {
-        /*$servername = "localhost";
-        $username = "root";
-        $password = "";*/
-
-        $conn = mysqli_connect($this->servername, $this->username, $this->password, $this->database);
-    
-        if (!$conn)
+        try
         {
-            throw new Exception("Connection failed".mysqli_connect_error());
+            $conn = new PDO("mysql:host=$this->servername;dbname=$this->database", $this->username, $this->password);
+
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            print "connected successfully";
         }
-        return $conn;
+        catch(PDOException $e)
+        {
+            print "connection failed: ".$e->getMessage();
+        }
+        
     }
 }
 ?>

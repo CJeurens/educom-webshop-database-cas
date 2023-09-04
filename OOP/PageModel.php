@@ -60,35 +60,35 @@ class PageModel
                             "name"      =>  "name",
                             "label"     =>  "Name:",
                             "type"      =>  "text",
-                            "value"   =>  "''"
+                            "value"     =>  "''"        //default value
                         ),
                         "email" =>  array
                         (
                             "name"      =>  "email",
                             "label"     =>  "E-mail:",
                             "type"      =>  "text",
-                            "value"   =>  "''"
+                            "value"     =>  "''"
                         ),
                         "msg" =>  array
                         (
                             "name"      =>  "msg",
                             "label"     =>  "Message:",
                             "type"      =>  "textarea",
-                            "value"   =>  "''"
+                            "value"     =>  "''"
                         ),
                         "submit" =>  array
                         (
                             "name"      =>  "submit",
                             "label"     =>  "",
                             "type"      =>  "submit",
-                            "value"   =>  "Send"
+                            "value"     =>  "Send"
                         ),
                         "hidden" =>  array
                         (
                             "name"      =>  "page",
                             "label"     =>  "",
                             "type"      =>  "hidden",
-                            "value"   =>  "contact"
+                            "value"     =>  "contact"
                         )
                     )
                 );
@@ -108,29 +108,25 @@ class PageModel
                                         "name"  =>  "email",
                                         "label" =>  "E-mail:",
                                         "type"  =>  "text",
-                                        "value" =>  "''",
-                                        "error" =>  ""
+                                        "value" =>  "''"
                         ),
                         "password"  =>  array(
                                         "name"  =>  "password",
                                         "label" =>  "Password:",
                                         "type"  =>  "text",
-                                        "value" =>  "''",
-                                        "error" =>  ""
+                                        "value" =>  "''"
                         ),
                         "submit" =>  array(
                                         "name"  =>  "''",
                                         "label" =>  "<a style=font-size:14px; href='?page=register'>Register account</a>",
                                         "type"  =>  "submit",
-                                        "value" =>  "'Log in'",
-                                        "error" =>  ""
+                                        "value" =>  "'Log in'"
                         ),
                         "hidden" =>  array(
                                         "name"  =>  "page",
                                         "label" =>  "",
                                         "type"  =>  "hidden",
-                                        "value" =>  "login",
-                                        "error" =>  ""
+                                        "value" =>  "login"
                         )
                     )
                 );
@@ -150,43 +146,37 @@ class PageModel
                                         "name"  =>  "email",
                                         "label" =>  "E-mail:",
                                         "type"  =>  "text",
-                                        "value" =>  "''",
-                                        "error" =>  ""
+                                        "value" =>  "''"
                         ),
                         "username" =>  array(
                                         "name"  =>  "username",
                                         "label" =>  "Username:",
                                         "type"  =>  "text",
-                                        "value" =>  "''",
-                                        "error" =>  ""
+                                        "value" =>  "''"
                         ),
                         "password"  =>  array(
                                         "name"  =>  "password",
                                         "label" =>  "Password:",
                                         "type"  =>  "text",
-                                        "value" =>  "''",
-                                        "error" =>  ""
+                                        "value" =>  "''"
                         ),
                         "rpassword"  =>  array(
                                         "name"  =>  "rpassword",
                                         "label" =>  "Repeat password:",
                                         "type"  =>  "text",
-                                        "value" =>  "''",
-                                        "error" =>  ""
+                                        "value" =>  "''"
                         ),
                         "submit" =>  array(
                                         "name"  =>  "''",
                                         "label" =>  "<a style=font-size:14px; href='?page=login'>Log in instead</a>",
                                         "type"  =>  "submit",
-                                        "value" =>  "Register",
-                                        "error" =>  ""
+                                        "value" =>  "Register"
                         ),
                         "hidden" =>  array(
                                         "name"  =>  "page",
                                         "label" =>  "",
                                         "type"  =>  "hidden",
-                                        "value" =>  "register",
-                                        "error" =>  ""
+                                        "value" =>  "register"
                         )
                     )
                 );

@@ -9,6 +9,7 @@ class Validator
 
     public function validate()
     {
+        $return = array();
         foreach ($this->data as $key=>$value)
         {
             $field[$key]=$value;    //also adds new key to previous loop result
@@ -18,25 +19,39 @@ class Validator
             
             if(empty($field[$key]["value"]))
             {
-                //print "empty| ";
                 $field[$key]["error"] = "Please fill in field";
-
             }
-            
-            if ($key == "email")
+            else
             {
-                print "email found| ";
-                if (!filter_var($field[$key]["value"],FILTER_VALIDATE_EMAIL))
+                if ($key == "email")
                 {
-                    print "bad email| ";
-                    $field[$key]["error"] = "Invalid e-mail";
+                    if (!filter_var($field[$key]["value"],FILTER_VALIDATE_EMAIL))
+                    {
+                        $field[$key]["error"] = "Invalid e-mail";
+                    }
+                    else
+                    {
+
+                        require_once "ConnectMySqli.php";
+                        $conn_users = new ConnectMySqli(
+                            servername: "localhost",
+                            username: "root",
+                            password: "",
+                            database: "users"
+                        );
+                        
+
+                        require_once "RetrieveUserInfo.php";
+                        $user = new RetrieveUserInfo($field[$key]["value"], $conn_users);
+
+                        $user->retrieve();
+
+                    }
                 }
-
+                //repeat password check
             }
-            return $field;
-            //repeat password check
-
         }
+        return $field;
     }
 }
 
