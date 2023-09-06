@@ -1,11 +1,5 @@
 <?php
-require_once "connectmysqli.php";
-$conn_users = new ConnectMySQLi(
-    servername: "localhost",
-    username: "root",
-    password: "",
-    database: "users"
-);
+
 
 
 

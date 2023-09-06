@@ -7,51 +7,53 @@ class Validator
         $this->data = $data;
     }
 
+    public function addValidation($field, $fields)
+    {
+        if (array_key_exists("email",$field))
+        {
+            $field = $this->validateEmail($field);
+        }
+        //custom validation checks for login/registration forms
+        return $field;
+    }
+
+    public function validateEmail($field)
+    {
+        if (!filter_var($field["email"]["value"],FILTER_VALIDATE_EMAIL))
+        {
+            $field["email"]["error"] = "Invalid e-mail";
+        }
+        else
+        {
+            $field["email"]["valid"] = TRUE;
+        }
+        return $field;
+    }
+
     public function validate()
     {
         $return = array();
+        $fields = array();
         foreach ($this->data as $key=>$value)
         {
-            $field[$key]=$value;    //also adds new key to previous loop result
-
+            unset($field);
+            $field[$key] = $value;
             $field[$key]["error"] = "";
             $field[$key]["valid"] = FALSE;
-            
             if(empty($field[$key]["value"]))
             {
                 $field[$key]["error"] = "Please fill in field";
             }
             else
             {
-                if ($key == "email")
-                {
-                    if (!filter_var($field[$key]["value"],FILTER_VALIDATE_EMAIL))
-                    {
-                        $field[$key]["error"] = "Invalid e-mail";
-                    }
-                    else
-                    {
 
-                        require_once "ConnectMySqli.php";
-                        $conn_users = new ConnectMySqli(
-                            servername: "localhost",
-                            username: "root",
-                            password: "",
-                            database: "users"
-                        );
-                        
 
-                        require_once "RetrieveUserInfo.php";
-                        $user = new RetrieveUserInfo($field[$key]["value"], $conn_users);
-
-                        $user->retrieve();
-
-                    }
-                }
-                //repeat password check
+                //custom checks
+                $field = $this->addValidation($field, $fields);
             }
+            $fields = array_merge($fields,$field);
         }
-        return $field;
+        return $fields;
     }
 }
 

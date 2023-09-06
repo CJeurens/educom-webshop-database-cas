@@ -55,8 +55,23 @@ class PageController
                     $post = new RetrievePost($fields, $sanitize);
                     $san_data = $post->retrieve();
 
-                    require_once "Validator.php";
-                    $validate = new Validator($san_data);
+                    require_once "LoginValidator.php";
+                    $validate = new LoginValidator($san_data);
+                    $this->val_data = $validate->validate();
+                    break;
+
+                case "register":
+                    $fields = array("email", "username", "password", "rpassword");
+
+                    require_once "SanitizeData.php";
+                    $sanitize = new SanitizeData;
+
+                    require_once "RetrievePost.php";
+                    $post = new RetrievePost($fields, $sanitize);
+                    $san_data = $post->retrieve();
+
+                    require_once "RegisterValidator.php";
+                    $validate = new RegisterValidator($san_data);
                     $this->val_data = $validate->validate();
                     break;
             }
