@@ -10,6 +10,7 @@ class TextDoc extends AppDoc
             $content["title"],
             $content["header"],
             $content["navlinks"],
+            $content["session"],
             $content["author"]
         );
         $this->text = $content["text"];

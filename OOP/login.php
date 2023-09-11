@@ -1,14 +1,18 @@
 <?php
 class Login
 {
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
+
     public function showLogIn()
     {
-        $current_user = getLoginSession();
-        if (!empty($current_user))
+        if (!empty($this->user))
         {
-            print "Welcome ".$current_user."!
+            print "Welcome ".$this->user."!
             <input type='hidden' value='logout' form='logout' name='page'>";
-            showShoppingCart();
+            //showShoppingCart();
             print "<button type='submit'> Log out </button>
             ";
         }

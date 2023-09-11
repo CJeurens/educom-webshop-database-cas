@@ -22,6 +22,7 @@ class FormDoc extends AppDoc
             $content["title"],
             $content["header"],
             $content["navlinks"],
+            $content["session"],
             $content["author"]
         );
 

@@ -18,14 +18,14 @@ class PageController
         $this->request = 
             [
                 'posted' => $posted,
-                'page'     => $this->getRequestVar('page', $posted, 'home')    
+                'page'   => $this->getRequestVar('page', $posted, 'home')    
             ];
     }
     
     private function validateRequest()
     {
         $this->response = $this->request; // getoond == gevraagd
-        $val_data = "";
+        $this->val_data = $val_data = "";
         if ($this->request['posted'])
         {
             switch ($this->request['page'])
@@ -42,7 +42,8 @@ class PageController
 
                     require_once "Validator.php";
                     $validate = new Validator($san_data);
-                    $this->val_data = $validate->validate();
+                    $validate->validate();
+                    $this->val_data = Validator::$val_data;
                     break;
 
                 case "login":
@@ -57,7 +58,14 @@ class PageController
 
                     require_once "LoginValidator.php";
                     $validate = new LoginValidator($san_data);
-                    $this->val_data = $validate->validate();
+                    $username = $validate->validate();
+                    $this->val_data = Validator::$val_data;
+
+                    require_once "Session.php";
+                    $session = new Session;
+                    $session->doLoginSession($username);
+                    
+                    //homepage (maybe previous page?)
                     break;
 
                 case "register":
@@ -72,10 +80,14 @@ class PageController
 
                     require_once "RegisterValidator.php";
                     $validate = new RegisterValidator($san_data);
-                    $this->val_data = $validate->validate();
+                    $this->val_data = $validate->fields;
+                    $validate->validate();
+
+                    //user write to db
+                    //userlogin
+                    //homepage
                     break;
             }
-
         }
         else
         {
@@ -90,7 +102,7 @@ class PageController
     private function showResponse()
     {
         require_once "PageModel.php";
-        $model = new PageModel;
+        $model = new PageModel();
         $content = $model->getPageContent($this->request);
 
         if (!empty($this->val_data))
@@ -100,7 +112,6 @@ class PageController
                 $content["fields"][$field] = array_merge($content["fields"][$field],$this->val_data[$field]);
             }
         }
-
 
         if ($content)
         {

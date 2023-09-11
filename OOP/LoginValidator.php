@@ -22,6 +22,7 @@ class LoginValidator extends Validator
             $field["email"]["error"] = "E-mail not registered";
             return $field;
         }
+        $field["email"]["valid"] = TRUE;
         return $field;
     }
 
@@ -42,7 +43,7 @@ class LoginValidator extends Validator
             $field = $this->validateEmail($field);
         }
 
-        if(!empty($this->user_info)&&array_key_exists("password",$field))
+        if(!empty($this->user_info) && array_key_exists("password",$field))
         {
             if (strcmp($field["password"]["value"],$this->user_info["password"]) == 0)
             {

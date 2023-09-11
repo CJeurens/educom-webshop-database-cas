@@ -2,6 +2,9 @@
 
 class Validator
 {
+
+    public static $val_data;
+
     public function __construct($data)
     {
         $this->data = $data;
@@ -13,7 +16,6 @@ class Validator
         {
             $field = $this->validateEmail($field);
         }
-        //custom validation checks for login/registration forms
         return $field;
     }
 
@@ -32,8 +34,8 @@ class Validator
 
     public function validate()
     {
-        $return = array();
         $fields = array();
+
         foreach ($this->data as $key=>$value)
         {
             unset($field);
@@ -46,14 +48,17 @@ class Validator
             }
             else
             {
-
-
-                //custom checks
                 $field = $this->addValidation($field, $fields);
             }
             $fields = array_merge($fields,$field);
         }
-        return $fields;
+
+        self::$val_data = $fields;
+
+        if(!empty($fields["email"]["valid"]) && !empty($fields["password"]["valid"]))
+        {
+            return $this->user_info["username"];
+        }
     }
 }
 

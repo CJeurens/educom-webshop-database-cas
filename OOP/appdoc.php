@@ -4,11 +4,12 @@ require_once "htmldoc.php";
 
 class AppDoc extends HtmlDoc
 {
-    public function __construct($title, $header, $navlinks, $author)
+    public function __construct($title, $header, $navlinks, $session, $author)
     {
         $this->title = $title;
         $this->header = $header;
         $this->navlinks = $navlinks;
+        $this->session = $session;
         $this->author = $author;
     }
 
@@ -30,7 +31,7 @@ class AppDoc extends HtmlDoc
         $header->show();
         
         require_once "navbar.php";
-        $navbar = new NavBar($this->navlinks);
+        $navbar = new NavBar($this->navlinks, $this->session);
         $navbar->show();
 
         print "<div class=content>";

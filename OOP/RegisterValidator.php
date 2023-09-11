@@ -43,7 +43,7 @@ class RegisterValidator extends Validator
             $field = $this->validateEmail($field);
         }
 
-        if(isset($fields["email"])&&$fields["email"]["valid"]&&array_key_exists("rpassword",$field))
+        if(isset($fields["email"]) && $fields["email"]["valid"] && array_key_exists("rpassword",$field))
         {
             if (strcmp($fields["password"]["value"],$field["rpassword"]["value"]) == 0)
             {

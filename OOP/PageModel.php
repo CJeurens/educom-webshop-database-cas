@@ -13,6 +13,9 @@ class PageModel
         );
 
         $author = "Cas Jeurens";
+        $session = $_SESSION;
+        $content = array();
+        var_dump($request);
 
         switch ($request["page"])
         {
@@ -21,6 +24,7 @@ class PageModel
                     "title"     => "🏠HOME",
                     "header"    => "🏠DIT IS HOME",
                     "navlinks"  => $navlinks,
+                    "session"   => $session,
                     "author"    => $author,
                     "type"      => "text",
                     "text"      => array
@@ -34,6 +38,7 @@ class PageModel
                     "title"     => "ℹ️ABOUT",
                     "header"    => "ℹ️DIT IS ABOUT",
                     "navlinks"  => $navlinks,
+                    "session"   => $session,
                     "author"    => $author,
                     "type"      => "text",
                     "text"      => array
@@ -49,6 +54,7 @@ class PageModel
                     "title"     => "📞CONTACT",
                     "header"    => "📞DIT IS CONTACT",
                     "navlinks"  => $navlinks,
+                    "session"   => $session,
                     "author"    => $author,
                     "type"      => "form",
                     "form"      => "contact",
@@ -98,6 +104,7 @@ class PageModel
                     "title"     => "👤ACCOUNT",
                     "header"    => "👤ACCOUNT",
                     "navlinks"  => $navlinks,
+                    "session"   => $session,
                     "author"    => $author,
                     "type"      => "form",
                     "form"      => "login",
@@ -136,6 +143,7 @@ class PageModel
                     "title"     => "👤ACCOUNT",
                     "header"    => "👤ACCOUNT",
                     "navlinks"  => $navlinks,
+                    "session"   => $session,
                     "author"    => $author,
                     "type"      => "form",
                     "form"      => "register",
@@ -181,6 +189,8 @@ class PageModel
                     )
                 );
                 break;
+            case "logout":
+                
         }
         return $content;
     }

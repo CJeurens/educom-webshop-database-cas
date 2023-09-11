@@ -1,9 +1,10 @@
 <?php
 class NavBar
 {
-    public function __construct(array $links)
+    public function __construct(array $links, $user)
     {
         $this->links = $links;
+        $this->user = $user;
     }
 
     public function show()
@@ -19,9 +20,9 @@ class NavBar
                 print "             <span class='account'><form method='post' id='logout' name='logout'><input type='hidden' name='page' value='logout'>";
                 
                 require_once "login.php";
-                $this->login = new Login();
+                $login = new Login($this->user["userID"]);
                 
-                $this->login->showLogIn(); print "</form></span>
+                $login->showLogIn(); print "</form></span>
             </ul>
         </div>
         </div>
